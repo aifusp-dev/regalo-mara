@@ -55,7 +55,7 @@ export function createRoom(hostSocketId: string, questions: Question[]): RoomSta
     currentQuestionIndex: -1,
     questionStartedAt: null,
     answeredBy: new Map(),
-    timeLimitMs: 60000,
+    timeLimitMs: 30000,
     revealDurationMs: 6000,
     questionTimer: null,
     revealTimer: null,

@@ -118,6 +118,12 @@ io.on('connection', (socket) => {
     const player = room.players.get(socket.id);
     if (player) player.score += points;
     io.to(room.hostSocketId).emit('answer:received', { count: room.answeredBy.size });
+
+    if (room.answeredBy.size >= room.players.size && room.questionTimer) {
+      clearTimeout(room.questionTimer);
+      room.questionTimer = null;
+      revealQuestion(room);
+    }
   });
 
   socket.on('disconnect', () => {

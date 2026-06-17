@@ -58,7 +58,7 @@
   {
     "id": "qd3",
     "type": "quiendijo",
-    "question": "¿Quién dijo: \"Que haya currupción\"?",
+    "question": "¿Quién dijo: \"Que haya currupcion\"?",
     "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra"],
     "correctIndex": 0
   },
@@ -86,7 +86,7 @@
   {
     "id": "qd7",
     "type": "quiendijo",
-    "question": "¿Quién dijo: \"Conflicción de interés\"?",
+    "question": "¿Quién dijo: \"Conflicción de interes\"?",
     "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra"],
     "correctIndex": 0
   },
