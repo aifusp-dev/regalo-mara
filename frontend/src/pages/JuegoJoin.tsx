@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { GoogleGate } from '../components/GoogleGate';
 import { socket } from '../lib/socket';
 import type { VerifiedUser } from '../lib/api';
 
 type Question = {
   index: number;
+  total: number;
   question: string;
   options: string[];
   timeLimitMs: number;
@@ -24,11 +25,13 @@ function JoinGame({ user }: { user: VerifiedUser }) {
   const [error, setError] = useState('');
   const [question, setQuestion] = useState<Question | null>(null);
   const [myScore, setMyScore] = useState(0);
+  const [secondsLeft, setSecondsLeft] = useState(0);
   const [reveal, setReveal] = useState<{
     correctIndex: number;
     scoreboard: { name: string; score: number }[];
   } | null>(null);
   const [chosenOption, setChosenOption] = useState<number | null>(null);
+  const deadlineRef = useRef(0);
 
   useEffect(() => {
     socket.connect();
@@ -40,6 +43,8 @@ function JoinGame({ user }: { user: VerifiedUser }) {
       setChosenOption(null);
       setReveal(null);
       setPhase('question');
+      deadlineRef.current = Date.now() + q.timeLimitMs;
+      setSecondsLeft(Math.ceil(q.timeLimitMs / 1000));
     });
     socket.on('question:reveal', (data) => {
       setReveal(data);
@@ -58,6 +63,15 @@ function JoinGame({ user }: { user: VerifiedUser }) {
       socket.disconnect();
     };
   }, [user.name]);
+
+  useEffect(() => {
+    if (phase !== 'question' && phase !== 'answered') return;
+    const interval = setInterval(() => {
+      const remaining = Math.max(0, deadlineRef.current - Date.now());
+      setSecondsLeft(Math.ceil(remaining / 1000));
+    }, 250);
+    return () => clearInterval(interval);
+  }, [phase]);
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center gap-6 p-6 py-16 text-center">
@@ -95,30 +109,33 @@ function JoinGame({ user }: { user: VerifiedUser }) {
         </p>
       )}
 
-      {phase === 'question' && question && (
+      {(phase === 'question' || phase === 'answered') && question && (
         <>
-          <p className="text-white/60">Pregunta {question.index + 1}</p>
+          <p className="text-white/60">
+            Pregunta {question.index + 1} / {question.total}
+          </p>
+          <p className="text-3xl font-bold text-purple-300">{secondsLeft}s</p>
           <h2 className="text-xl text-white">{question.question}</h2>
-          <div className="grid w-full grid-cols-1 gap-3">
-            {question.options.map((opt, i) => (
-              <button
-                key={i}
-                onClick={() => {
-                  setChosenOption(i);
-                  socket.emit('player:answer', { optionIndex: i });
-                  setPhase('answered');
-                }}
-                className="rounded-lg border border-white/10 bg-white/5 p-3 text-white/90 hover:bg-purple-500/40"
-              >
-                {opt}
-              </button>
-            ))}
-          </div>
+          {phase === 'question' ? (
+            <div className="grid w-full grid-cols-1 gap-3">
+              {question.options.map((opt, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setChosenOption(i);
+                    socket.emit('player:answer', { optionIndex: i });
+                    setPhase('answered');
+                  }}
+                  className="rounded-lg border border-white/10 bg-white/5 p-3 text-white/90 hover:bg-purple-500/40"
+                >
+                  {opt}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <p className="text-white/80">Respuesta enviada, esperando...</p>
+          )}
         </>
-      )}
-
-      {phase === 'answered' && (
-        <p className="text-white/80">Respuesta enviada, esperando...</p>
       )}
 
       {phase === 'revealed' && reveal && question && (

@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { socket } from '../lib/socket';
 
 type Player = { name: string; picture?: string; score: number };
 type Question = {
   index: number;
+  total: number;
   question: string;
   options: string[];
   timeLimitMs: number;
@@ -17,10 +18,12 @@ export function JuegoHost() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [question, setQuestion] = useState<Question | null>(null);
   const [answeredCount, setAnsweredCount] = useState(0);
+  const [secondsLeft, setSecondsLeft] = useState(0);
   const [reveal, setReveal] = useState<{
     correctIndex: number;
     scoreboard: Player[];
   } | null>(null);
+  const deadlineRef = useRef(0);
 
   useEffect(() => {
     socket.connect();
@@ -35,6 +38,8 @@ export function JuegoHost() {
       setAnsweredCount(0);
       setReveal(null);
       setPhase('question');
+      deadlineRef.current = Date.now() + q.timeLimitMs;
+      setSecondsLeft(Math.ceil(q.timeLimitMs / 1000));
     });
     socket.on('answer:received', ({ count }) => setAnsweredCount(count));
     socket.on('question:reveal', (data) => {
@@ -57,6 +62,15 @@ export function JuegoHost() {
     };
   }, []);
 
+  useEffect(() => {
+    if (phase !== 'question') return;
+    const interval = setInterval(() => {
+      const remaining = Math.max(0, deadlineRef.current - Date.now());
+      setSecondsLeft(Math.ceil(remaining / 1000));
+    }, 250);
+    return () => clearInterval(interval);
+  }, [phase]);
+
   return (
     <div className="mx-auto flex min-h-screen max-w-xl flex-col items-center gap-6 p-6 py-16 text-center">
       <h1 className="text-2xl font-semibold text-white">Panel del anfitrión</h1>
@@ -78,7 +92,7 @@ export function JuegoHost() {
           </p>
           <PlayerList players={players} />
           <button
-            onClick={() => socket.emit('host:next')}
+            onClick={() => socket.emit('host:start')}
             disabled={players.length === 0}
             className="rounded-full bg-purple-500 px-6 py-3 font-medium text-white hover:bg-purple-400 disabled:opacity-40"
           >
@@ -89,7 +103,10 @@ export function JuegoHost() {
 
       {phase === 'question' && question && (
         <>
-          <p className="text-white/60">Pregunta {question.index + 1}</p>
+          <p className="text-white/60">
+            Pregunta {question.index + 1} / {question.total}
+          </p>
+          <p className="text-4xl font-bold text-purple-300">{secondsLeft}s</p>
           <h2 className="text-xl text-white">{question.question}</h2>
           <ul className="grid w-full grid-cols-2 gap-3">
             {question.options.map((opt, i) => (
@@ -104,30 +121,19 @@ export function JuegoHost() {
           <p className="text-white/60">
             Respuestas recibidas: {answeredCount} / {players.length}
           </p>
-          <button
-            onClick={() => socket.emit('host:reveal')}
-            className="rounded-full bg-purple-500 px-6 py-3 font-medium text-white hover:bg-purple-400"
-          >
-            Revelar
-          </button>
         </>
       )}
 
-      {phase === 'revealed' && reveal && (
+      {phase === 'revealed' && reveal && question && (
         <>
           <p className="text-white/80">
             Respuesta correcta:{' '}
             <span className="font-semibold text-emerald-400">
-              {question?.options[reveal.correctIndex]}
+              {question.options[reveal.correctIndex]}
             </span>
           </p>
           <PlayerList players={reveal.scoreboard} />
-          <button
-            onClick={() => socket.emit('host:next')}
-            className="rounded-full bg-purple-500 px-6 py-3 font-medium text-white hover:bg-purple-400"
-          >
-            Siguiente
-          </button>
+          <p className="text-white/50">Siguiente pregunta en unos segundos...</p>
         </>
       )}
 

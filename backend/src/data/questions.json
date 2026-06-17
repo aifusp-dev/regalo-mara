@@ -14,10 +14,101 @@
     "correctIndex": 1
   },
   {
+    "id": "g3",
+    "type": "general",
+    "question": "¿Cuántos corazones tiene un pulpo?",
+    "options": ["1", "2", "3", "4"],
+    "correctIndex": 2
+  },
+  {
+    "id": "g4",
+    "type": "general",
+    "question": "¿Qué país tiene forma de bota?",
+    "options": ["España", "Italia", "Grecia", "Portugal"],
+    "correctIndex": 1
+  },
+  {
+    "id": "g5",
+    "type": "general",
+    "question": "¿Cuál es el animal terrestre más rápido?",
+    "options": ["León", "Guepardo", "Caballo", "Avestruz"],
+    "correctIndex": 1
+  },
+  {
+    "id": "g6",
+    "type": "general",
+    "question": "¿Cuántos planetas tiene el sistema solar?",
+    "options": ["7", "8", "9", "10"],
+    "correctIndex": 1
+  },
+  {
     "id": "qd1",
     "type": "quiendijo",
-    "question": "¿Quién dijo: \"Frase de ejemplo, sustituir por una real del grupo\"?",
-    "options": ["Amigo 1", "Amigo 2", "Amigo 3", "Amigo 4"],
+    "question": "¿Quién dijo: \"Lo conozco desde el dos mil 2020\"?",
+    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra"],
+    "correctIndex": 0
+  },
+  {
+    "id": "qd2",
+    "type": "quiendijo",
+    "question": "¿Quién dijo: \"¿Tu backpack tiene mochila?\"?",
+    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra"],
+    "correctIndex": 1
+  },
+  {
+    "id": "qd3",
+    "type": "quiendijo",
+    "question": "¿Quién dijo: \"Que haya currupción\"?",
+    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra"],
+    "correctIndex": 0
+  },
+  {
+    "id": "qd4",
+    "type": "quiendijo",
+    "question": "¿Quién dijo: \"Enchufle\"?",
+    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra"],
+    "correctIndex": 2
+  },
+  {
+    "id": "qd5",
+    "type": "quiendijo",
+    "question": "¿Quién dijo: \"Estás en una relación estrable\"?",
+    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra"],
+    "correctIndex": 3
+  },
+  {
+    "id": "qd6",
+    "type": "quiendijo",
+    "question": "¿Quién dijo: \"Manejaba un re ausismo\"?",
+    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra"],
+    "correctIndex": 4
+  },
+  {
+    "id": "qd7",
+    "type": "quiendijo",
+    "question": "¿Quién dijo: \"Conflicción de interés\"?",
+    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra"],
+    "correctIndex": 0
+  },
+  {
+    "id": "qd8",
+    "type": "quiendijo",
+    "question": "¿Quién dijo: \"Me copa el grido para la floreria\"?",
+    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra"],
+    "correctIndex": 1
+  },
+  {
+    "id": "qd9",
+    "type": "quiendijo",
+    "question": "¿Quién dijo: \"Te puse de nuevo de porta papeles\"?",
+    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra"],
+    "correctIndex": 3
+  },
+  {
+    "id": "qd10",
+    "type": "quiendijo",
+    "question": "¿Quién dijo: \"Me huele a multimedia\" (quería decir multicuenta)?",
+    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra"],
     "correctIndex": 0
   }
 ]

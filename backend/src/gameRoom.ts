@@ -22,6 +22,9 @@ export type RoomState = {
   questionStartedAt: number | null;
   answeredBy: Map<string, number>;
   timeLimitMs: number;
+  revealDurationMs: number;
+  questionTimer: NodeJS.Timeout | null;
+  revealTimer: NodeJS.Timeout | null;
 };
 
 const rooms = new Map<string, RoomState>();
@@ -34,16 +37,28 @@ function generateCode(): string {
   return code;
 }
 
+function shuffle<T>(items: T[]): T[] {
+  const result = [...items];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
 export function createRoom(hostSocketId: string, questions: Question[]): RoomState {
   const room: RoomState = {
     code: generateCode(),
     hostSocketId,
     players: new Map(),
-    questions,
+    questions: shuffle(questions),
     currentQuestionIndex: -1,
     questionStartedAt: null,
     answeredBy: new Map(),
-    timeLimitMs: 15000,
+    timeLimitMs: 60000,
+    revealDurationMs: 6000,
+    questionTimer: null,
+    revealTimer: null,
   };
   rooms.set(room.code, room);
   return room;
@@ -54,6 +69,11 @@ export function getRoom(code: string): RoomState | undefined {
 }
 
 export function removeRoom(code: string): void {
+  const room = rooms.get(code);
+  if (room) {
+    if (room.questionTimer) clearTimeout(room.questionTimer);
+    if (room.revealTimer) clearTimeout(room.revealTimer);
+  }
   rooms.delete(code);
 }
 

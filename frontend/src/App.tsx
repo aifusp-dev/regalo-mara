@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { GoogleGate } from './components/GoogleGate';
+import { Landing } from './pages/Landing';
 import { Capsula } from './pages/Capsula';
 import { JuegoHost } from './pages/JuegoHost';
 import { JuegoJoin } from './pages/JuegoJoin';
@@ -7,8 +8,9 @@ import { JuegoJoin } from './pages/JuegoJoin';
 function App() {
   return (
     <Routes>
+      <Route path="/" element={<Landing />} />
       <Route
-        path="/"
+        path="/capsula"
         element={
           <GoogleGate requireCapsuleOwner>
             {(user) => <Capsula user={user} />}

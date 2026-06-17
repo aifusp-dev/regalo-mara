@@ -13,6 +13,7 @@ import {
   publicPlayers,
   scoreForAnswer,
   type Question,
+  type RoomState,
 } from './gameRoom.js';
 import questionsData from './data/questions.json' with { type: 'json' };
 
@@ -48,6 +49,35 @@ const io = new Server(httpServer, {
   cors: { origin: '*' },
 });
 
+function startQuestion(room: RoomState) {
+  room.currentQuestionIndex += 1;
+  const question = room.questions[room.currentQuestionIndex];
+  if (!question) {
+    io.to(room.code).emit('game:over', { scoreboard: publicPlayers(room) });
+    removeRoom(room.code);
+    return;
+  }
+  room.answeredBy.clear();
+  room.questionStartedAt = Date.now();
+  io.to(room.code).emit('question:show', {
+    index: room.currentQuestionIndex,
+    total: room.questions.length,
+    question: question.question,
+    options: question.options,
+    timeLimitMs: room.timeLimitMs,
+  });
+  room.questionTimer = setTimeout(() => revealQuestion(room), room.timeLimitMs);
+}
+
+function revealQuestion(room: RoomState) {
+  const question = room.questions[room.currentQuestionIndex];
+  io.to(room.code).emit('question:reveal', {
+    correctIndex: question.correctIndex,
+    scoreboard: publicPlayers(room).sort((a, b) => b.score - a.score),
+  });
+  room.revealTimer = setTimeout(() => startQuestion(room), room.revealDurationMs);
+}
+
 io.on('connection', (socket) => {
   socket.on('host:create', () => {
     const room = createRoom(socket.id, questions);
@@ -71,25 +101,11 @@ io.on('connection', (socket) => {
     socket.emit('room:joined', { code });
   });
 
-  socket.on('host:next', () => {
+  socket.on('host:start', () => {
     const code = socket.data.roomCode;
     const room = code ? getRoom(code) : undefined;
-    if (!room || room.hostSocketId !== socket.id) return;
-
-    room.currentQuestionIndex += 1;
-    const question = room.questions[room.currentQuestionIndex];
-    if (!question) {
-      io.to(code).emit('game:over', { scoreboard: publicPlayers(room) });
-      return;
-    }
-    room.answeredBy.clear();
-    room.questionStartedAt = Date.now();
-    io.to(code).emit('question:show', {
-      index: room.currentQuestionIndex,
-      question: question.question,
-      options: question.options,
-      timeLimitMs: room.timeLimitMs,
-    });
+    if (!room || room.hostSocketId !== socket.id || room.currentQuestionIndex !== -1) return;
+    startQuestion(room);
   });
 
   socket.on('player:answer', ({ optionIndex }) => {
@@ -102,18 +118,6 @@ io.on('connection', (socket) => {
     const player = room.players.get(socket.id);
     if (player) player.score += points;
     io.to(room.hostSocketId).emit('answer:received', { count: room.answeredBy.size });
-  });
-
-  socket.on('host:reveal', () => {
-    const code = socket.data.roomCode;
-    const room = code ? getRoom(code) : undefined;
-    if (!room || room.hostSocketId !== socket.id) return;
-
-    const question = room.questions[room.currentQuestionIndex];
-    io.to(code).emit('question:reveal', {
-      correctIndex: question.correctIndex,
-      scoreboard: publicPlayers(room).sort((a, b) => b.score - a.score),
-    });
   });
 
   socket.on('disconnect', () => {
