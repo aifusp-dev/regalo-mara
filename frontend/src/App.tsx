@@ -15,7 +15,7 @@ function App() {
           path="/capsula"
           element={
             <GoogleGate requireCapsuleOwner>
-              {(user) => <Capsula user={user} />}
+              {(user, idToken) => <Capsula user={user} idToken={idToken} />}
             </GoogleGate>
           }
         />

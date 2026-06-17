@@ -1,11 +1,12 @@
 import 'dotenv/config';
-import express from 'express';
+import express, { type Request, type Response, type NextFunction } from 'express';
 import cors from 'cors';
 import path from 'path';
+import multer from 'multer';
 import { fileURLToPath } from 'url';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
-import { verifyGoogleToken } from './auth.js';
+import { verifyGoogleToken, type VerifiedUser } from './auth.js';
 import {
   createRoom,
   getRoom,
@@ -15,6 +16,7 @@ import {
   type Question,
   type RoomState,
 } from './gameRoom.js';
+import { listEntries, addEntry, deleteEntry, getUploadsDir } from './capsule.js';
 import questionsData from './data/questions.json' with { type: 'json' };
 
 const questions = questionsData as Question[];
@@ -36,6 +38,76 @@ app.post('/api/auth/verify', async (req, res) => {
   } catch {
     res.status(401).json({ error: 'Token inválido' });
   }
+});
+
+declare module 'express-serve-static-core' {
+  interface Request {
+    capsuleUser?: VerifiedUser;
+  }
+}
+
+async function requireCapsuleOwner(req: Request, res: Response, next: NextFunction) {
+  const authHeader = req.headers.authorization;
+  const idToken = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
+  if (!idToken) {
+    res.status(401).json({ error: 'Falta token' });
+    return;
+  }
+  try {
+    const user = await verifyGoogleToken(idToken);
+    if (!CAPSULE_ALLOWED_EMAILS.includes(user.email.toLowerCase())) {
+      res.status(403).json({ error: 'No autorizado' });
+      return;
+    }
+    req.capsuleUser = user;
+    next();
+  } catch {
+    res.status(401).json({ error: 'Token inválido' });
+  }
+}
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: getUploadsDir(),
+    filename: (_req, file, cb) => {
+      const ext = path.extname(file.originalname);
+      cb(null, `${Date.now()}-${Math.random().toString(36).slice(2, 8)}${ext}`);
+    },
+  }),
+  limits: { fileSize: 8 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    cb(null, file.mimetype.startsWith('image/'));
+  },
+});
+
+app.use('/uploads', express.static(getUploadsDir()));
+
+app.get('/api/capsule/entries', requireCapsuleOwner, (_req, res) => {
+  res.json(listEntries());
+});
+
+app.post(
+  '/api/capsule/entries',
+  requireCapsuleOwner,
+  upload.single('image'),
+  (req, res) => {
+    const { title, text } = req.body;
+    if (!title?.trim() && !text?.trim() && !req.file) {
+      res.status(400).json({ error: 'El recuerdo está vacío' });
+      return;
+    }
+    const entry = addEntry({
+      title: title?.trim() || '',
+      text: text?.trim() || '',
+      imageUrl: req.file ? `/uploads/${req.file.filename}` : null,
+    });
+    res.status(201).json(entry);
+  },
+);
+
+app.delete('/api/capsule/entries/:id', requireCapsuleOwner, (req, res) => {
+  deleteEntry(String(req.params.id));
+  res.status(204).end();
 });
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

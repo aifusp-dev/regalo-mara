@@ -5,16 +5,17 @@ import { useDarkMode } from '../hooks/useDarkMode';
 
 type Props = {
   requireCapsuleOwner?: boolean;
-  children: (user: VerifiedUser) => React.ReactNode;
+  children: (user: VerifiedUser, idToken: string) => React.ReactNode;
 };
 
 export function GoogleGate({ requireCapsuleOwner, children }: Props) {
   const [user, setUser] = useState<VerifiedUser | null>(null);
+  const [idToken, setIdToken] = useState<string | null>(null);
   const [denied, setDenied] = useState(false);
   const [error, setError] = useState(false);
   const { isDark } = useDarkMode();
 
-  if (user) return <>{children(user)}</>;
+  if (user && idToken) return <>{children(user, idToken)}</>;
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 p-6 text-center">
@@ -43,6 +44,7 @@ export function GoogleGate({ requireCapsuleOwner, children }: Props) {
                     setDenied(true);
                     return;
                   }
+                  setIdToken(credential.credential);
                   setUser(user);
                 } catch {
                   setError(true);
