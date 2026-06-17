@@ -115,140 +115,140 @@
     "id": "qd1",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"Lo conozco desde el dos mil 2020\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
+    "options": ["Mara!", "Tomi<3", "aifusp", "COTA"],
     "correctIndex": 0
   },
   {
     "id": "qd2",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"¿Tu backpack tiene mochila?\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
-    "correctIndex": 1
+    "options": ["aifusp", "Lio", "Frammm", "Mara!"],
+    "correctIndex": 0
   },
   {
     "id": "qd3",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"Que haya currupcion\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
-    "correctIndex": 0
+    "options": ["Dr3aw", "Lio", "Tomi<3", "Mara!"],
+    "correctIndex": 3
   },
   {
     "id": "qd4",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"Enchufle\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
-    "correctIndex": 2
+    "options": ["Tomi<3", "Mara!", "COTA", "Dr3aw"],
+    "correctIndex": 3
   },
   {
     "id": "qd5",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"Estás en una relación estrable\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
+    "options": ["ElGordito", "aifusp", "Lio", "Tomi<3"],
     "correctIndex": 3
   },
   {
     "id": "qd6",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"Manejaba un re ausismo\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
-    "correctIndex": 4
+    "options": ["COTA", "borra", "Lio", "Mara!"],
+    "correctIndex": 1
   },
   {
     "id": "qd7",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"Conflicción de interes\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
+    "options": ["Mara!", "COTA", "Tomi<3", "borra"],
     "correctIndex": 0
   },
   {
     "id": "qd8",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"Me copa el grido para la floreria\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
+    "options": ["Dr3aw", "aifusp", "ElGordito", "COTA"],
     "correctIndex": 1
   },
   {
     "id": "qd9",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"Te puse de nuevo de porta papeles\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
-    "correctIndex": 3
+    "options": ["COTA", "aifusp", "Tomi<3", "Mara!"],
+    "correctIndex": 2
   },
   {
     "id": "qd10",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"Me huele a multimedia\" (quería decir multicuenta)?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
-    "correctIndex": 0
+    "options": ["Dr3aw", "Mara!", "aifusp", "Lio"],
+    "correctIndex": 1
   },
   {
     "id": "qd11",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"Si van a hablar, cierren el orto\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
-    "correctIndex": 5
+    "options": ["Mara!", "borra", "ElGordito", "COTA"],
+    "correctIndex": 2
   },
   {
     "id": "qd12",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"CHACARETA DOBLE\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
-    "correctIndex": 6
+    "options": ["Tomi<3", "aifusp", "Lio", "Frammm"],
+    "correctIndex": 2
   },
   {
     "id": "qd13",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"Una cosa son personas y otra cosa son bolivianos\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
-    "correctIndex": 2
+    "options": ["Lio", "Dr3aw", "borra", "COTA"],
+    "correctIndex": 1
   },
   {
     "id": "qd14",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"Hypaxel\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
-    "correctIndex": 1
+    "options": ["aifusp", "Mara!", "borra", "Dr3aw"],
+    "correctIndex": 0
   },
   {
     "id": "qd15",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"Climinal ofensive side aye\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
-    "correctIndex": 7
+    "options": ["Mara!", "aifusp", "COTA", "Tomi<3"],
+    "correctIndex": 2
   },
   {
     "id": "qd16",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"¿No hay ningún dinosaurio que no haya nacido de un huevo?\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
+    "options": ["Mara!", "Frammm", "Dr3aw", "borra"],
     "correctIndex": 2
   },
   {
     "id": "qd17",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"Me di cuenta que me gusta más jugar con cosas sólidas abajo\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
-    "correctIndex": 4
+    "options": ["Lio", "Tomi<3", "borra", "Dr3aw"],
+    "correctIndex": 2
   },
   {
     "id": "qd18",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"¿Qué es ese emoji de la canilla?\" 🚰?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
-    "correctIndex": 8
+    "options": ["Lio", "Frammm", "COTA", "borra"],
+    "correctIndex": 1
   },
   {
     "id": "qd19",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"Oficina del futura cadere miab0_1\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
-    "correctIndex": 9
+    "options": ["borra", "Mara!", "COTA", "Dr3aw"],
+    "correctIndex": 1
   },
   {
     "id": "qd20",
     "type": "quiendijo",
     "question": "¿Quién dijo: \"Argento arcentino\"?",
-    "options": ["Mara!", "aifusp", "Dr3aw", "Tomi<3", "borra", "ElGordito", "Lio", "COTA", "Frammm", "Ohmara"],
-    "correctIndex": 1
+    "options": ["aifusp", "COTA", "borra", "Dr3aw"],
+    "correctIndex": 0
   }
 ]
