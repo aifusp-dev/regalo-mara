@@ -7,6 +7,7 @@ import {
   type CapsuleEntry,
   type VerifiedUser,
 } from '../lib/api';
+import { Puzzle } from '../components/Puzzle';
 
 export function Capsula({ user, idToken }: { user: VerifiedUser; idToken: string }) {
   const [entries, setEntries] = useState<CapsuleEntry[]>([]);
@@ -52,6 +53,8 @@ export function Capsula({ user, idToken }: { user: VerifiedUser; idToken: string
         Hola {user.name.split(' ')[0]}, este es tu rincón. Guarda aquí fotos,
         textos y cosas que quieras recordar.
       </p>
+
+      <Puzzle />
 
       <form
         onSubmit={handleSubmit}
