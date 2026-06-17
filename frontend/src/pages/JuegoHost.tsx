@@ -73,46 +73,54 @@ export function JuegoHost() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-xl flex-col items-center gap-6 p-6 py-16 text-center">
-      <h1 className="text-2xl font-semibold text-white">Panel del anfitrión</h1>
+      <h1 className="font-display text-3xl font-bold text-white">
+        🎙️ Panel del anfitrión
+      </h1>
 
       {phase === 'idle' && (
         <button
           onClick={() => socket.emit('host:create')}
-          className="rounded-full bg-purple-500 px-6 py-3 font-medium text-white hover:bg-purple-400"
+          className="rounded-2xl bg-gradient-to-r from-fuchsia-500 via-purple-500 to-violet-500 px-6 py-3 font-display font-semibold text-white shadow-lg shadow-purple-900/40 transition hover:scale-[1.03]"
         >
           Crear sala
         </button>
       )}
 
       {phase === 'lobby' && (
-        <>
+        <div className="flex w-full flex-col items-center gap-6 rounded-3xl border border-white/15 bg-white/10 p-8 shadow-xl shadow-purple-950/30 backdrop-blur-sm">
           <p className="text-white/70">Código de sala</p>
-          <p className="text-5xl font-bold tracking-widest text-purple-300">
+          <p className="font-display text-6xl font-extrabold tracking-widest text-fuchsia-300 drop-shadow-[0_2px_12px_rgba(232,121,249,0.5)]">
             {code}
           </p>
           <PlayerList players={players} />
           <button
             onClick={() => socket.emit('host:start')}
             disabled={players.length === 0}
-            className="rounded-full bg-purple-500 px-6 py-3 font-medium text-white hover:bg-purple-400 disabled:opacity-40"
+            className="rounded-2xl bg-gradient-to-r from-fuchsia-500 via-purple-500 to-violet-500 px-6 py-3 font-display font-semibold text-white shadow-lg shadow-purple-900/40 transition hover:scale-[1.03] disabled:opacity-40 disabled:hover:scale-100"
           >
             Empezar
           </button>
-        </>
+        </div>
       )}
 
       {phase === 'question' && question && (
-        <>
+        <div className="flex w-full flex-col items-center gap-5 rounded-3xl border border-white/15 bg-white/10 p-8 shadow-xl shadow-purple-950/30 backdrop-blur-sm">
           <p className="text-white/60">
             Pregunta {question.index + 1} / {question.total}
           </p>
-          <p className="text-4xl font-bold text-purple-300">{secondsLeft}s</p>
+          <p
+            className={`font-display text-5xl font-extrabold ${
+              secondsLeft <= 5 ? 'animate-pulse text-rose-400' : 'text-fuchsia-300'
+            }`}
+          >
+            {secondsLeft}s
+          </p>
           <h2 className="text-xl text-white">{question.question}</h2>
           <ul className="grid w-full grid-cols-2 gap-3">
             {question.options.map((opt, i) => (
               <li
                 key={i}
-                className="rounded-lg border border-white/10 bg-white/5 p-3 text-white/80"
+                className="rounded-xl border border-white/15 bg-white/5 p-3 text-white/80"
               >
                 {opt}
               </li>
@@ -121,11 +129,11 @@ export function JuegoHost() {
           <p className="text-white/60">
             Respuestas recibidas: {answeredCount} / {players.length}
           </p>
-        </>
+        </div>
       )}
 
       {phase === 'revealed' && reveal && question && (
-        <>
+        <div className="flex w-full flex-col items-center gap-5 rounded-3xl border border-white/15 bg-white/10 p-8 shadow-xl shadow-purple-950/30 backdrop-blur-sm">
           <p className="text-white/80">
             Respuesta correcta:{' '}
             <span className="font-semibold text-emerald-400">
@@ -134,14 +142,16 @@ export function JuegoHost() {
           </p>
           <PlayerList players={reveal.scoreboard} />
           <p className="text-white/50">Siguiente pregunta en unos segundos...</p>
-        </>
+        </div>
       )}
 
       {phase === 'over' && (
-        <>
-          <h2 className="text-xl text-white">🏆 Resultado final</h2>
+        <div className="flex w-full flex-col items-center gap-5 rounded-3xl border border-white/15 bg-white/10 p-8 shadow-xl shadow-purple-950/30 backdrop-blur-sm">
+          <h2 className="font-display text-2xl font-bold text-white">
+            🏆 Resultado final
+          </h2>
           <PlayerList players={players} />
-        </>
+        </div>
       )}
     </div>
   );
@@ -156,9 +166,12 @@ function PlayerList({ players }: { players: Player[] }) {
         .map((p, i) => (
           <li
             key={i}
-            className="flex items-center justify-between rounded-lg bg-white/5 px-4 py-2 text-white/80"
+            className="flex items-center justify-between rounded-xl bg-white/10 px-4 py-2 text-white/80"
           >
-            <span>{p.name}</span>
+            <span>
+              {i === 0 ? '🥇 ' : i === 1 ? '🥈 ' : i === 2 ? '🥉 ' : ''}
+              {p.name}
+            </span>
             <span className="font-mono">{p.score}</span>
           </li>
         ))}

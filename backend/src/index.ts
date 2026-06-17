@@ -18,7 +18,10 @@ import {
 import questionsData from './data/questions.json' with { type: 'json' };
 
 const questions = questionsData as Question[];
-const CAPSULE_ALLOWED_EMAIL = process.env.CAPSULE_ALLOWED_EMAIL?.toLowerCase();
+const CAPSULE_ALLOWED_EMAILS = (process.env.CAPSULE_ALLOWED_EMAILS ?? '')
+  .split(',')
+  .map((email) => email.trim().toLowerCase())
+  .filter(Boolean);
 
 const app = express();
 app.use(cors());
@@ -28,9 +31,7 @@ app.post('/api/auth/verify', async (req, res) => {
   try {
     const { idToken } = req.body;
     const user = await verifyGoogleToken(idToken);
-    const isCapsuleOwner = CAPSULE_ALLOWED_EMAIL
-      ? user.email.toLowerCase() === CAPSULE_ALLOWED_EMAIL
-      : false;
+    const isCapsuleOwner = CAPSULE_ALLOWED_EMAILS.includes(user.email.toLowerCase());
     res.json({ user, isCapsuleOwner });
   } catch {
     res.status(401).json({ error: 'Token inválido' });

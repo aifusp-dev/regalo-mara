@@ -76,13 +76,16 @@ function JoinGame({ user }: { user: VerifiedUser }) {
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center gap-6 p-6 py-16 text-center">
       {phase === 'join' && (
-        <>
-          <h1 className="text-2xl font-semibold text-white">Únete a la partida</h1>
+        <div className="flex w-full flex-col items-center gap-6 rounded-3xl border border-white/15 bg-white/10 p-8 shadow-xl shadow-purple-950/30 backdrop-blur-sm">
+          <span className="text-4xl">🎮</span>
+          <h1 className="font-display text-2xl font-bold text-white">
+            Únete a la partida
+          </h1>
           <input
             value={code}
             onChange={(e) => setCode(e.target.value.toUpperCase())}
-            placeholder="Código de sala"
-            className="w-full rounded-lg border border-white/20 bg-white/5 p-3 text-center text-2xl tracking-widest text-white"
+            placeholder="CÓDIGO"
+            className="w-full rounded-xl border border-white/20 bg-white/10 p-3 text-center text-2xl tracking-widest text-white placeholder:text-white/30"
             maxLength={4}
           />
           {error && <p className="text-rose-300">{error}</p>}
@@ -95,26 +98,35 @@ function JoinGame({ user }: { user: VerifiedUser }) {
               })
             }
             disabled={code.length !== 4}
-            className="rounded-full bg-purple-500 px-6 py-3 font-medium text-white hover:bg-purple-400 disabled:opacity-40"
+            className="rounded-2xl bg-gradient-to-r from-fuchsia-500 via-purple-500 to-violet-500 px-6 py-3 font-display font-semibold text-white shadow-lg shadow-purple-900/40 transition hover:scale-[1.03] disabled:opacity-40 disabled:hover:scale-100"
           >
             Entrar
           </button>
-        </>
+        </div>
       )}
 
       {phase === 'lobby' && (
-        <p className="text-white/80">
-          Estás dentro, {user.name.split(' ')[0]}. Esperando a que empiece el
-          anfitrión...
-        </p>
+        <div className="flex w-full flex-col items-center gap-4 rounded-3xl border border-white/15 bg-white/10 p-8 shadow-xl shadow-purple-950/30 backdrop-blur-sm">
+          <span className="animate-float text-4xl">⏳</span>
+          <p className="text-white/80">
+            Estás dentro, {user.name.split(' ')[0]}. Esperando a que empiece
+            el anfitrión...
+          </p>
+        </div>
       )}
 
       {(phase === 'question' || phase === 'answered') && question && (
-        <>
+        <div className="flex w-full flex-col items-center gap-5 rounded-3xl border border-white/15 bg-white/10 p-8 shadow-xl shadow-purple-950/30 backdrop-blur-sm">
           <p className="text-white/60">
             Pregunta {question.index + 1} / {question.total}
           </p>
-          <p className="text-3xl font-bold text-purple-300">{secondsLeft}s</p>
+          <p
+            className={`font-display text-4xl font-extrabold ${
+              secondsLeft <= 5 ? 'animate-pulse text-rose-400' : 'text-fuchsia-300'
+            }`}
+          >
+            {secondsLeft}s
+          </p>
           <h2 className="text-xl text-white">{question.question}</h2>
           {phase === 'question' ? (
             <div className="grid w-full grid-cols-1 gap-3">
@@ -126,7 +138,7 @@ function JoinGame({ user }: { user: VerifiedUser }) {
                     socket.emit('player:answer', { optionIndex: i });
                     setPhase('answered');
                   }}
-                  className="rounded-lg border border-white/10 bg-white/5 p-3 text-white/90 hover:bg-purple-500/40"
+                  className="rounded-xl border border-white/15 bg-white/10 p-3 text-white/90 transition hover:scale-[1.02] hover:bg-purple-500/40"
                 >
                   {opt}
                 </button>
@@ -135,11 +147,14 @@ function JoinGame({ user }: { user: VerifiedUser }) {
           ) : (
             <p className="text-white/80">Respuesta enviada, esperando...</p>
           )}
-        </>
+        </div>
       )}
 
       {phase === 'revealed' && reveal && question && (
-        <>
+        <div className="flex w-full flex-col items-center gap-4 rounded-3xl border border-white/15 bg-white/10 p-8 shadow-xl shadow-purple-950/30 backdrop-blur-sm">
+          <span className="text-4xl">
+            {chosenOption === reveal.correctIndex ? '✅' : '❌'}
+          </span>
           <p
             className={
               chosenOption === reveal.correctIndex
@@ -153,13 +168,17 @@ function JoinGame({ user }: { user: VerifiedUser }) {
             Respuesta correcta: {question.options[reveal.correctIndex]}
           </p>
           <p className="text-white/60">Tu puntuación: {myScore}</p>
-        </>
+        </div>
       )}
 
       {phase === 'over' && (
-        <h2 className="text-xl text-white">
-          🏆 ¡Partida terminada! Puntuación final: {myScore}
-        </h2>
+        <div className="flex w-full flex-col items-center gap-4 rounded-3xl border border-white/15 bg-white/10 p-8 shadow-xl shadow-purple-950/30 backdrop-blur-sm">
+          <span className="text-4xl">🏆</span>
+          <h2 className="font-display text-xl font-bold text-white">
+            ¡Partida terminada!
+          </h2>
+          <p className="text-white/80">Puntuación final: {myScore}</p>
+        </div>
       )}
     </div>
   );

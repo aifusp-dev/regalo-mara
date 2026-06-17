@@ -8,7 +8,8 @@ export function Capsula({ user }: { user: VerifiedUser }) {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-2xl flex-col items-center gap-8 p-6 py-16 text-center">
-      <h1 className="text-3xl font-semibold text-white">
+      <span className="animate-float text-5xl">💌</span>
+      <h1 className="font-display text-4xl font-bold text-white drop-shadow-[0_2px_12px_rgba(244,114,182,0.5)]">
         Feliz cumpleaños, Omi 💜
       </h1>
       <p className="text-white/70">
@@ -23,11 +24,11 @@ export function Capsula({ user }: { user: VerifiedUser }) {
             <button
               key={i}
               onClick={() => setOpened((prev) => [...prev, i])}
-              className="rounded-xl border border-white/10 bg-white/5 p-5 text-left transition hover:bg-white/10"
+              className="rounded-2xl border border-white/15 bg-white/10 p-5 text-left shadow-lg shadow-purple-950/30 backdrop-blur-sm transition hover:scale-[1.01] hover:bg-white/15"
             >
               {isOpen ? (
                 <div className="flex flex-col gap-3">
-                  <h2 className="text-lg font-medium text-white">
+                  <h2 className="font-display text-lg font-semibold text-white">
                     {entry.title}
                   </h2>
                   <p className="whitespace-pre-line text-white/80">
@@ -42,7 +43,7 @@ export function Capsula({ user }: { user: VerifiedUser }) {
                   )}
                 </div>
               ) : (
-                <span className="text-white/60">✉️ {entry.title}</span>
+                <span className="text-white/70">✉️ {entry.title}</span>
               )}
             </button>
           );
@@ -51,7 +52,7 @@ export function Capsula({ user }: { user: VerifiedUser }) {
 
       <Link
         to="/juego/host"
-        className="mt-8 rounded-full bg-purple-500 px-6 py-3 font-medium text-white transition hover:bg-purple-400"
+        className="mt-8 rounded-2xl bg-gradient-to-r from-fuchsia-500 via-purple-500 to-violet-500 px-6 py-3 font-display font-semibold text-white shadow-lg shadow-purple-900/40 transition hover:scale-[1.03]"
       >
         Jugar con amigos 🎉
       </Link>
