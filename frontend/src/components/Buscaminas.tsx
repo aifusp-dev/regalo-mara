@@ -126,7 +126,7 @@ export function Buscaminas() {
   const flagsUsed = cells.filter((c) => c.flagged).length;
 
   return (
-    <div className="flex w-full flex-col items-center gap-4 rounded-3xl border-2 border-brand-pink/30 bg-white p-6 shadow-xl shadow-pink-200/40 dark:border-white/15 dark:bg-white/10 dark:shadow-purple-950/30">
+    <div className="flex w-full max-w-xs flex-col items-center gap-4 rounded-3xl border-2 border-brand-pink/30 bg-white p-6 shadow-xl shadow-pink-200/40 dark:border-white/15 dark:bg-white/10 dark:shadow-purple-950/30">
       <h2 className="font-display text-xl font-bold">
         🧨 <span className="brand-gradient-text">Buscaminas</span>
       </h2>
