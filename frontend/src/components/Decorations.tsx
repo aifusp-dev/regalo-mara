@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import ajoloteAzul from '../assets/ajoloteazul.png';
+import ajoloteRosa from '../assets/ajoloterosa.png';
 
 type Decoration = {
   id: number;
-  emoji: string;
+  emoji?: string;
+  img?: string;
   top: string;
   left: string;
   size: string;
@@ -21,6 +24,8 @@ const initialItems: Decoration[] = [
   { id: 7, emoji: '🌟', top: '60%', left: '92%', size: 'text-3xl', anim: 'animate-float', opacity: 'opacity-60', poppable: false },
   { id: 8, emoji: '🎈', top: '32%', left: '72%', size: 'text-4xl', anim: 'animate-float-slow', opacity: 'opacity-70', poppable: true },
   { id: 9, emoji: '🎈', top: '68%', left: '22%', size: 'text-4xl', anim: 'animate-float', opacity: 'opacity-70', poppable: true },
+  { id: 10, img: ajoloteAzul, top: '20%', left: '12%', size: 'w-14', anim: 'animate-float-slow', opacity: 'opacity-80', poppable: false },
+  { id: 11, img: ajoloteRosa, top: '72%', left: '80%', size: 'w-14', anim: 'animate-float', opacity: 'opacity-80', poppable: false },
 ];
 
 function randomPosition() {
@@ -68,6 +73,14 @@ export function Decorations() {
           >
             {item.emoji}
           </button>
+        ) : item.img ? (
+          <img
+            key={item.id}
+            src={item.img}
+            alt=""
+            className={`absolute select-none [image-rendering:pixelated] ${item.size} ${item.anim} ${item.opacity}`}
+            style={{ top: item.top, left: item.left }}
+          />
         ) : (
           <span
             key={item.id}

@@ -2,6 +2,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { useState } from 'react';
 import { verifyGoogleToken, type VerifiedUser } from '../lib/api';
 import { useDarkMode } from '../hooks/useDarkMode';
+import ajoloteAzul from '../assets/ajoloteazul.png';
 
 type Props = {
   requireCapsuleOwner?: boolean;
@@ -27,7 +28,11 @@ export function GoogleGate({ requireCapsuleOwner, children }: Props) {
           </p>
         ) : (
           <>
-            <span className="text-4xl">🔐</span>
+            <img
+              src={ajoloteAzul}
+              alt="Ajolote azul"
+              className="animate-float w-20 [image-rendering:pixelated]"
+            />
             <p className="text-balance text-black/70 dark:text-white/80">
               Inicia sesión con Google para continuar
             </p>

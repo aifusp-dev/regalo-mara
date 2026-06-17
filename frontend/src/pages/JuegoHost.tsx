@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { socket } from '../lib/socket';
 import { ScoreChart } from '../components/ScoreChart';
+import ajoloteAzul from '../assets/ajoloteazul.png';
 
 type Player = { name: string; picture?: string; score: number };
 type Question = {
@@ -74,6 +75,11 @@ export function JuegoHost() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-xl flex-col items-center gap-6 p-6 py-16 text-center">
+      <img
+        src={ajoloteAzul}
+        alt="Ajolote azul"
+        className="animate-float w-16 [image-rendering:pixelated]"
+      />
       <h1 className="font-display text-3xl font-bold">
         🎙️ <span className="brand-gradient-text">Panel del anfitrión</span>
       </h1>

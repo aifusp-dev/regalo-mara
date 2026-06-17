@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom';
+import ajoloteRosa from '../assets/ajoloterosa.png';
 
 export function Landing() {
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center gap-10 p-6 text-center">
-      <div className="animate-float text-7xl">🎂</div>
+      <img
+        src={ajoloteRosa}
+        alt="Ajolote rosa"
+        className="animate-float w-32 [image-rendering:pixelated]"
+      />
       <h1 className="font-display text-4xl font-bold text-black drop-shadow-sm dark:text-white">
         <span className="brand-gradient-text">¡Feliz cumpleaños!</span>
       </h1>

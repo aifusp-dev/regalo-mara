@@ -3,6 +3,7 @@ import { GoogleGate } from '../components/GoogleGate';
 import { ScoreChart } from '../components/ScoreChart';
 import { socket } from '../lib/socket';
 import type { VerifiedUser } from '../lib/api';
+import ajoloteRosa from '../assets/ajoloterosa.png';
 
 type Question = {
   index: number;
@@ -78,7 +79,11 @@ function JoinGame({ user }: { user: VerifiedUser }) {
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center gap-6 p-6 py-16 text-center">
       {phase === 'join' && (
         <div className="flex w-full flex-col items-center gap-6 rounded-3xl border-2 border-brand-pink/30 bg-white p-8 shadow-xl shadow-pink-200/40 dark:border-white/15 dark:bg-white/10 dark:shadow-purple-950/30">
-          <span className="text-4xl">🎮</span>
+          <img
+            src={ajoloteRosa}
+            alt="Ajolote rosa"
+            className="animate-float w-20 [image-rendering:pixelated]"
+          />
           <h1 className="font-display text-2xl font-bold">
             <span className="brand-gradient-text">Únete a la partida</span>
           </h1>
