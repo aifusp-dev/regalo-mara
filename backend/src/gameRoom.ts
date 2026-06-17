@@ -46,12 +46,14 @@ function shuffle<T>(items: T[]): T[] {
   return result;
 }
 
+const QUESTIONS_PER_GAME = 10;
+
 export function createRoom(hostSocketId: string, questions: Question[]): RoomState {
   const room: RoomState = {
     code: generateCode(),
     hostSocketId,
     players: new Map(),
-    questions: shuffle(questions),
+    questions: shuffle(questions).slice(0, QUESTIONS_PER_GAME),
     currentQuestionIndex: -1,
     questionStartedAt: null,
     answeredBy: new Map(),
