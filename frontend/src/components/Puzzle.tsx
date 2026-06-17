@@ -1,9 +1,19 @@
 import { useState } from 'react';
-import puzzleImage from '../assets/puzzle-mara.jpg';
+import puzzleMara from '../assets/puzzle-mara.jpg';
+import puzzleMinecraft from '../assets/puzzle-minecraft.jpg';
+import puzzleSelfie from '../assets/puzzle-selfie.jpg';
+import puzzleGrupo from '../assets/puzzle-grupo.jpg';
 
 const COLS = 4;
 const ROWS = 4;
 const TOTAL = COLS * ROWS;
+
+const IMAGES = [
+  { src: puzzleMara, width: 1200, height: 1600 },
+  { src: puzzleMinecraft, width: 1200, height: 1144 },
+  { src: puzzleSelfie, width: 1107, height: 830 },
+  { src: puzzleGrupo, width: 510, height: 907 },
+];
 
 function shuffle<T>(items: T[]): T[] {
   const result = [...items];
@@ -22,14 +32,21 @@ function shuffledOrder(): number[] {
   return order;
 }
 
+function randomImage(excludeSrc?: string) {
+  const pool = IMAGES.filter((img) => img.src !== excludeSrc);
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
 type Phase = 'playing' | 'won';
 
 export function Puzzle() {
+  const [image, setImage] = useState(() => randomImage());
   const [order, setOrder] = useState<number[]>(shuffledOrder);
   const [selected, setSelected] = useState<number | null>(null);
   const [phase, setPhase] = useState<Phase>('playing');
 
   function startNew() {
+    setImage((prev) => randomImage(prev.src));
     setOrder(shuffledOrder());
     setSelected(null);
     setPhase('playing');
@@ -52,6 +69,8 @@ export function Puzzle() {
     if (next.every((pieceId, p) => pieceId === p)) setPhase('won');
   }
 
+  const tileAspect = `${image.width} / ${image.height}`;
+
   return (
     <div className="flex w-full max-w-xs flex-col items-center gap-4 rounded-3xl border-2 border-brand-pink/30 bg-white p-6 shadow-xl shadow-pink-200/40 dark:border-white/15 dark:bg-white/10 dark:shadow-purple-950/30">
       <h2 className="font-display text-xl font-bold">
@@ -63,7 +82,7 @@ export function Puzzle() {
       </p>
 
       <div
-        className="grid aspect-[3/4] w-full max-w-[260px] gap-0.5 overflow-hidden rounded-xl border-2 border-black/10 dark:border-white/15"
+        className="grid w-full max-w-[260px] gap-0.5 overflow-hidden rounded-xl border-2 border-black/10 dark:border-white/15"
         style={{ gridTemplateColumns: `repeat(${COLS}, 1fr)` }}
       >
         {order.map((pieceId, pos) => {
@@ -74,11 +93,12 @@ export function Puzzle() {
               key={pos}
               onClick={() => clickTile(pos)}
               disabled={phase !== 'playing'}
-              className={`aspect-[3/4] bg-cover ${
+              className={`bg-cover ${
                 selected === pos ? 'ring-4 ring-brand-pink ring-inset' : ''
               }`}
               style={{
-                backgroundImage: `url(${puzzleImage})`,
+                aspectRatio: tileAspect,
+                backgroundImage: `url(${image.src})`,
                 backgroundSize: `${COLS * 100}% ${ROWS * 100}%`,
                 backgroundPosition: `${(c / (COLS - 1)) * 100}% ${(r / (ROWS - 1)) * 100}%`,
               }}
