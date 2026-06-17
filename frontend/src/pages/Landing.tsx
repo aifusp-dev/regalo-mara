@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import ajoloteRosa from '../assets/ajoloterosa.png';
+import { Buscaminas } from '../components/Buscaminas';
 
 export function Landing() {
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center gap-10 p-6 text-center">
+    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center gap-10 p-6 py-16 text-center">
       <img
         src={ajoloteRosa}
         alt="Ajolote rosa"
@@ -26,6 +27,7 @@ export function Landing() {
           💌 Ver la cápsula del tiempo
         </Link>
       </div>
+      <Buscaminas />
     </div>
   );
 }
