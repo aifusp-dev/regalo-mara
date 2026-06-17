@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { socket } from '../lib/socket';
+import { ScoreChart } from '../components/ScoreChart';
 
 type Player = { name: string; picture?: string; score: number };
 type Question = {
@@ -73,30 +74,30 @@ export function JuegoHost() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-xl flex-col items-center gap-6 p-6 py-16 text-center">
-      <h1 className="font-display text-3xl font-bold text-white">
-        🎙️ Panel del anfitrión
+      <h1 className="font-display text-3xl font-bold">
+        🎙️ <span className="brand-gradient-text">Panel del anfitrión</span>
       </h1>
 
       {phase === 'idle' && (
         <button
           onClick={() => socket.emit('host:create')}
-          className="rounded-2xl bg-gradient-to-r from-fuchsia-500 via-purple-500 to-violet-500 px-6 py-3 font-display font-semibold text-white shadow-lg shadow-purple-900/40 transition hover:scale-[1.03]"
+          className="rounded-2xl bg-gradient-to-r from-brand-pink to-brand-cyan px-6 py-3 font-display font-bold text-white shadow-lg shadow-pink-300/50 transition hover:scale-[1.03] dark:shadow-purple-900/40"
         >
           Crear sala
         </button>
       )}
 
       {phase === 'lobby' && (
-        <div className="flex w-full flex-col items-center gap-6 rounded-3xl border border-white/15 bg-white/10 p-8 shadow-xl shadow-purple-950/30 backdrop-blur-sm">
-          <p className="text-white/70">Código de sala</p>
-          <p className="font-display text-6xl font-extrabold tracking-widest text-fuchsia-300 drop-shadow-[0_2px_12px_rgba(232,121,249,0.5)]">
+        <div className="flex w-full flex-col items-center gap-6 rounded-3xl border-2 border-brand-pink/30 bg-white p-8 shadow-xl shadow-pink-200/40 dark:border-white/15 dark:bg-white/10 dark:shadow-purple-950/30">
+          <p className="text-black/60 dark:text-white/70">Código de sala</p>
+          <p className="font-display text-6xl font-extrabold tracking-widest brand-gradient-text">
             {code}
           </p>
           <PlayerList players={players} />
           <button
             onClick={() => socket.emit('host:start')}
             disabled={players.length === 0}
-            className="rounded-2xl bg-gradient-to-r from-fuchsia-500 via-purple-500 to-violet-500 px-6 py-3 font-display font-semibold text-white shadow-lg shadow-purple-900/40 transition hover:scale-[1.03] disabled:opacity-40 disabled:hover:scale-100"
+            className="rounded-2xl bg-gradient-to-r from-brand-pink to-brand-cyan px-6 py-3 font-display font-bold text-white shadow-lg shadow-pink-300/50 transition hover:scale-[1.03] disabled:opacity-40 disabled:hover:scale-100 dark:shadow-purple-900/40"
           >
             Empezar
           </button>
@@ -104,53 +105,56 @@ export function JuegoHost() {
       )}
 
       {phase === 'question' && question && (
-        <div className="flex w-full flex-col items-center gap-5 rounded-3xl border border-white/15 bg-white/10 p-8 shadow-xl shadow-purple-950/30 backdrop-blur-sm">
-          <p className="text-white/60">
+        <div className="flex w-full flex-col items-center gap-5 rounded-3xl border-2 border-brand-pink/30 bg-white p-8 shadow-xl shadow-pink-200/40 dark:border-white/15 dark:bg-white/10 dark:shadow-purple-950/30">
+          <p className="text-black/60 dark:text-white/60">
             Pregunta {question.index + 1} / {question.total}
           </p>
           <p
             className={`font-display text-5xl font-extrabold ${
-              secondsLeft <= 5 ? 'animate-pulse text-rose-400' : 'text-fuchsia-300'
+              secondsLeft <= 5
+                ? 'animate-pulse text-rose-500'
+                : 'brand-gradient-text'
             }`}
           >
             {secondsLeft}s
           </p>
-          <h2 className="text-xl text-white">{question.question}</h2>
+          <h2 className="text-xl font-bold">{question.question}</h2>
           <ul className="grid w-full grid-cols-2 gap-3">
             {question.options.map((opt, i) => (
               <li
                 key={i}
-                className="rounded-xl border border-white/15 bg-white/5 p-3 text-white/80"
+                className="rounded-xl border border-brand-cyan/30 bg-black/5 p-3 text-black/80 dark:border-white/15 dark:bg-white/5 dark:text-white/80"
               >
                 {opt}
               </li>
             ))}
           </ul>
-          <p className="text-white/60">
+          <p className="text-black/60 dark:text-white/60">
             Respuestas recibidas: {answeredCount} / {players.length}
           </p>
         </div>
       )}
 
       {phase === 'revealed' && reveal && question && (
-        <div className="flex w-full flex-col items-center gap-5 rounded-3xl border border-white/15 bg-white/10 p-8 shadow-xl shadow-purple-950/30 backdrop-blur-sm">
-          <p className="text-white/80">
+        <div className="flex w-full flex-col items-center gap-5 rounded-3xl border-2 border-brand-pink/30 bg-white p-8 shadow-xl shadow-pink-200/40 dark:border-white/15 dark:bg-white/10 dark:shadow-purple-950/30">
+          <p className="text-black/80 dark:text-white/80">
             Respuesta correcta:{' '}
-            <span className="font-semibold text-emerald-400">
+            <span className="font-bold text-emerald-500 dark:text-emerald-400">
               {question.options[reveal.correctIndex]}
             </span>
           </p>
-          <PlayerList players={reveal.scoreboard} />
-          <p className="text-white/50">Siguiente pregunta en unos segundos...</p>
+          <h3 className="font-display text-lg font-bold">📊 Cómo van</h3>
+          <ScoreChart players={reveal.scoreboard} />
+          <p className="text-black/50 dark:text-white/50">
+            Siguiente pregunta en unos segundos...
+          </p>
         </div>
       )}
 
       {phase === 'over' && (
-        <div className="flex w-full flex-col items-center gap-5 rounded-3xl border border-white/15 bg-white/10 p-8 shadow-xl shadow-purple-950/30 backdrop-blur-sm">
-          <h2 className="font-display text-2xl font-bold text-white">
-            🏆 Resultado final
-          </h2>
-          <PlayerList players={players} />
+        <div className="flex w-full flex-col items-center gap-5 rounded-3xl border-2 border-brand-pink/30 bg-white p-8 shadow-xl shadow-pink-200/40 dark:border-white/15 dark:bg-white/10 dark:shadow-purple-950/30">
+          <h2 className="font-display text-2xl font-bold">🏆 Resultado final</h2>
+          <ScoreChart players={players} />
         </div>
       )}
     </div>
@@ -166,7 +170,7 @@ function PlayerList({ players }: { players: Player[] }) {
         .map((p, i) => (
           <li
             key={i}
-            className="flex items-center justify-between rounded-xl bg-white/10 px-4 py-2 text-white/80"
+            className="flex items-center justify-between rounded-xl bg-black/5 px-4 py-2 text-black/80 dark:bg-white/10 dark:text-white/80"
           >
             <span>
               {i === 0 ? '🥇 ' : i === 1 ? '🥈 ' : i === 2 ? '🥉 ' : ''}
