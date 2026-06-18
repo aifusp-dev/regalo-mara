@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import ajoloteRosa from '../assets/ajoloterosa.png';
 import { Buscaminas } from '../components/Buscaminas';
 import { Sudoku } from '../components/Sudoku';
+import { Snake } from '../components/Snake';
 
 export function Landing() {
   return (
@@ -30,9 +31,10 @@ export function Landing() {
           </Link>
         </div>
       </div>
-      <div className="flex w-full max-w-3xl flex-col items-center gap-6 sm:flex-row sm:items-start sm:justify-center">
+      <div className="flex w-full max-w-5xl flex-col items-center gap-6 sm:flex-row sm:flex-wrap sm:items-start sm:justify-center">
         <Buscaminas />
         <Sudoku />
+        <Snake />
       </div>
     </div>
   );
