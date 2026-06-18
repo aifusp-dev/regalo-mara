@@ -64,3 +64,26 @@ export async function deleteCapsuleEntry(idToken: string, id: string): Promise<v
 export function resolveAssetUrl(url: string): string {
   return url.startsWith('http') ? url : `${API_URL}${url}`;
 }
+
+export type FlappyScore = {
+  id: string;
+  name: string;
+  score: number;
+  createdAt: string;
+};
+
+export async function submitFlappyScore(name: string, score: number): Promise<FlappyScore> {
+  const res = await fetch(`${API_URL}/api/flappy/scores`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, score }),
+  });
+  if (!res.ok) throw new Error('No se pudo guardar la puntuación');
+  return res.json();
+}
+
+export async function fetchTopFlappyScores(limit = 10): Promise<FlappyScore[]> {
+  const res = await fetch(`${API_URL}/api/flappy/scores/top?limit=${limit}`);
+  if (!res.ok) throw new Error('No se pudieron cargar las puntuaciones');
+  return res.json();
+}

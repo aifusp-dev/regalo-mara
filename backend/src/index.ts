@@ -17,6 +17,7 @@ import {
   type RoomState,
 } from './gameRoom.js';
 import { listEntries, addEntry, deleteEntry, getUploadsDir } from './capsule.js';
+import { addScore, topScores } from './scores.js';
 import questionsData from './data/questions.json' with { type: 'json' };
 
 const questions = questionsData as Question[];
@@ -108,6 +109,22 @@ app.post(
 app.delete('/api/capsule/entries/:id', requireCapsuleOwner, (req, res) => {
   deleteEntry(String(req.params.id));
   res.status(204).end();
+});
+
+app.get('/api/flappy/scores/top', (req, res) => {
+  const limit = Math.min(Number(req.query.limit) || 10, 50);
+  res.json(topScores(limit));
+});
+
+app.post('/api/flappy/scores', (req, res) => {
+  const { name, score } = req.body;
+  const trimmedName = typeof name === 'string' ? name.trim().slice(0, 30) : '';
+  if (!trimmedName || !Number.isInteger(score) || score < 0 || score > 100000) {
+    res.status(400).json({ error: 'Datos inválidos' });
+    return;
+  }
+  const entry = addScore(trimmedName, score);
+  res.status(201).json(entry);
 });
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

@@ -5,6 +5,8 @@ import { Landing } from './pages/Landing';
 import { Capsula } from './pages/Capsula';
 import { JuegoHost } from './pages/JuegoHost';
 import { JuegoJoin } from './pages/JuegoJoin';
+import { JuegoMenu } from './pages/JuegoMenu';
+import { FlappyAxolot } from './pages/FlappyAxolot';
 
 function App() {
   return (
@@ -19,8 +21,10 @@ function App() {
             </GoogleGate>
           }
         />
+        <Route path="/juego" element={<JuegoMenu />} />
+        <Route path="/juego/kahoot" element={<JuegoJoin />} />
         <Route path="/juego/host" element={<JuegoHost />} />
-        <Route path="/juego" element={<JuegoJoin />} />
+        <Route path="/juego/flappy" element={<FlappyAxolot />} />
       </Route>
     </Routes>
   );
