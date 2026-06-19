@@ -1,6 +1,11 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { useState } from 'react';
-import { verifyGoogleToken, type VerifiedUser } from '../lib/api';
+import {
+  verifyGoogleToken,
+  loadStoredSession,
+  saveStoredSession,
+  type VerifiedUser,
+} from '../lib/api';
 import { useDarkMode } from '../hooks/useDarkMode';
 import ajoloteAzul from '../assets/ajoloteazul.png';
 
@@ -10,9 +15,14 @@ type Props = {
 };
 
 export function GoogleGate({ requireCapsuleOwner, children }: Props) {
-  const [user, setUser] = useState<VerifiedUser | null>(null);
-  const [idToken, setIdToken] = useState<string | null>(null);
-  const [denied, setDenied] = useState(false);
+  const stored = loadStoredSession();
+  const usableStored = stored && (!requireCapsuleOwner || stored.isCapsuleOwner) ? stored : null;
+
+  const [user, setUser] = useState<VerifiedUser | null>(usableStored?.user ?? null);
+  const [idToken, setIdToken] = useState<string | null>(usableStored?.sessionToken ?? null);
+  const [denied, setDenied] = useState(
+    !!(stored && requireCapsuleOwner && !stored.isCapsuleOwner),
+  );
   const [error, setError] = useState(false);
   const { isDark } = useDarkMode();
 
@@ -42,14 +52,15 @@ export function GoogleGate({ requireCapsuleOwner, children }: Props) {
               onSuccess={async (credential) => {
                 if (!credential.credential) return;
                 try {
-                  const { user, isCapsuleOwner } = await verifyGoogleToken(
+                  const { user, isCapsuleOwner, sessionToken } = await verifyGoogleToken(
                     credential.credential,
                   );
                   if (requireCapsuleOwner && !isCapsuleOwner) {
                     setDenied(true);
                     return;
                   }
-                  setIdToken(credential.credential);
+                  saveStoredSession({ user, isCapsuleOwner, sessionToken });
+                  setIdToken(sessionToken);
                   setUser(user);
                 } catch {
                   setError(true);

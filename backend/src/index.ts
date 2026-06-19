@@ -6,7 +6,7 @@ import multer from 'multer';
 import { fileURLToPath } from 'url';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
-import { verifyGoogleToken, type VerifiedUser } from './auth.js';
+import { verifyGoogleToken, verifyAnyToken, createSessionToken, type VerifiedUser } from './auth.js';
 import {
   createRoom,
   getRoom,
@@ -35,7 +35,8 @@ app.post('/api/auth/verify', async (req, res) => {
     const { idToken } = req.body;
     const user = await verifyGoogleToken(idToken);
     const isCapsuleOwner = CAPSULE_ALLOWED_EMAILS.includes(user.email.toLowerCase());
-    res.json({ user, isCapsuleOwner });
+    const sessionToken = createSessionToken(user);
+    res.json({ user, isCapsuleOwner, sessionToken });
   } catch {
     res.status(401).json({ error: 'Token inválido' });
   }
@@ -55,7 +56,7 @@ async function requireCapsuleOwner(req: Request, res: Response, next: NextFuncti
     return;
   }
   try {
-    const user = await verifyGoogleToken(idToken);
+    const user = await verifyAnyToken(idToken);
     if (!CAPSULE_ALLOWED_EMAILS.includes(user.email.toLowerCase())) {
       res.status(403).json({ error: 'No autorizado' });
       return;

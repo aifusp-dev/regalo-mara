@@ -9,7 +9,7 @@ export type VerifiedUser = {
 
 export async function verifyGoogleToken(
   idToken: string,
-): Promise<{ user: VerifiedUser; isCapsuleOwner: boolean }> {
+): Promise<{ user: VerifiedUser; isCapsuleOwner: boolean; sessionToken: string }> {
   const res = await fetch(`${API_URL}/api/auth/verify`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -17,6 +17,31 @@ export async function verifyGoogleToken(
   });
   if (!res.ok) throw new Error('Token inválido');
   return res.json();
+}
+
+const SESSION_KEY = 'regalo-mara-session';
+
+export type StoredSession = {
+  user: VerifiedUser;
+  isCapsuleOwner: boolean;
+  sessionToken: string;
+};
+
+export function loadStoredSession(): StoredSession | null {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    return raw ? (JSON.parse(raw) as StoredSession) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveStoredSession(session: StoredSession): void {
+  localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+}
+
+export function clearStoredSession(): void {
+  localStorage.removeItem(SESSION_KEY);
 }
 
 export type CapsuleEntry = {
@@ -31,6 +56,7 @@ export async function fetchCapsuleEntries(idToken: string): Promise<CapsuleEntry
   const res = await fetch(`${API_URL}/api/capsule/entries`, {
     headers: { Authorization: `Bearer ${idToken}` },
   });
+  if (res.status === 401) clearStoredSession();
   if (!res.ok) throw new Error('No se pudieron cargar los recuerdos');
   return res.json();
 }
@@ -49,6 +75,7 @@ export async function createCapsuleEntry(
     headers: { Authorization: `Bearer ${idToken}` },
     body: formData,
   });
+  if (res.status === 401) clearStoredSession();
   if (!res.ok) throw new Error('No se pudo guardar el recuerdo');
   return res.json();
 }
@@ -58,6 +85,7 @@ export async function deleteCapsuleEntry(idToken: string, id: string): Promise<v
     method: 'DELETE',
     headers: { Authorization: `Bearer ${idToken}` },
   });
+  if (res.status === 401) clearStoredSession();
   if (!res.ok) throw new Error('No se pudo borrar el recuerdo');
 }
 

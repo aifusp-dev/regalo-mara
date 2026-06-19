@@ -250,5 +250,82 @@
     "question": "¿Quién dijo: \"Argento arcentino\"?",
     "options": ["aifusp", "COTA", "borra", "Dr3aw"],
     "correctIndex": 0
+  },
+  {
+    "id": "sm1",
+    "type": "sobremara",
+    "question": "Si Mara se gana un millón de dólares, ¿qué haría primero?",
+    "options": ["Invertirlo inteligentemente", "Viajar por el mundo", "Decir que lo va a pensar y no decidir nada por semanas", "Comprarse algo totalmente innecesario"],
+    "correctIndex": 2
+  },
+  {
+    "id": "sm2",
+    "type": "sobremara",
+    "question": "¿Qué habilidad describe mejor a Mara?",
+    "options": ["Resolver problemas", "Hacer amigos en cualquier lugar", "Encontrar problemas donde no los había", "Sobrevivir improvisando"],
+    "correctIndex": 3
+  },
+  {
+    "id": "sm3",
+    "type": "sobremara",
+    "question": "Si Mara tarda en responder un mensaje, normalmente es porque...",
+    "options": ["Está ocupada", "No lo vio", "Lo vio y se olvidó", "Está esperando que el problema se resuelva solo"],
+    "correctIndex": 3
+  },
+  {
+    "id": "sm4",
+    "type": "sobremara",
+    "question": "¿Qué personaje sería Mara en una película?",
+    "options": ["La protagonista", "La estratega del grupo", "El alivio cómico", "La que accidentalmente desencadena toda la trama"],
+    "correctIndex": 3
+  },
+  {
+    "id": "sm5",
+    "type": "sobremara",
+    "question": "¿Qué frase podría estar en la lápida de Mara dentro de 100 años?",
+    "options": ["\"Vivió intensamente.\"", "\"Siempre tuvo un plan.\"", "\"Esto parecía una buena idea.\"", "\"Volvía enseguida.\""],
+    "correctIndex": 2
+  },
+  {
+    "id": "sm6",
+    "type": "sobremara",
+    "question": "Si Mara fuera un animal, ¿cuál sería?",
+    "options": ["Un gato elegante", "Un perro energético", "Un zorro astuto", "Un mapache que encontró una situación cuestionable y decidió quedarse"],
+    "correctIndex": 3
+  },
+  {
+    "id": "sm7",
+    "type": "sobremara",
+    "question": "¿Qué es más probable que haga Mara un viernes por la noche?",
+    "options": ["Salir con amigos", "Ver una película", "Escuchar música", "Decir que va a descansar y terminar haciendo cualquier otra cosa"],
+    "correctIndex": 3
+  },
+  {
+    "id": "sm8",
+    "type": "sobremara",
+    "question": "¿Cuál es el superpoder más apropiado para Mara?",
+    "options": ["Teletransportarse al lugar equivocado con total confianza.", "Leer mentes, pero únicamente para descubrir chismes.", "Detener el tiempo para pensar una respuesta ingeniosa tres horas después de una discusión.", "Ser invocada automáticamente cada vez que hay un problema ajeno."],
+    "correctIndex": 0
+  },
+  {
+    "id": "sm9",
+    "type": "sobremara",
+    "question": "Si Mara fuera un producto, ¿qué advertencia tendría la caja?",
+    "options": ["\"Manipular con cuidado.\"", "\"Contenido altamente impredecible.\"", "\"Puede generar caos involuntario.\"", "\"Las instrucciones no están incluidas.\""],
+    "correctIndex": 2
+  },
+  {
+    "id": "sm10",
+    "type": "sobremara",
+    "question": "¿Qué tan probable es que Mara diga \"ya voy\" y tarde más de lo esperado?",
+    "options": ["Nunca", "A veces", "Frecuentemente", "Es una tradición reconocida internacionalmente"],
+    "correctIndex": 3
+  },
+  {
+    "id": "sm11",
+    "type": "sobremara",
+    "question": "¿Qué hace que Mara sea Mara?",
+    "options": ["El sentido común que aparece cuando ya es demasiado tarde.", "La confianza de alguien que no leyó las instrucciones.", "La capacidad de estar involucrada en historias imposibles por pura casualidad.", "Un conjunto de características que la ciencia aún no logró explicar."],
+    "correctIndex": 3
   }
 ]

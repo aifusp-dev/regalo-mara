@@ -1,6 +1,6 @@
 export type Question = {
   id: string;
-  type: 'general' | 'quiendijo';
+  type: 'general' | 'quiendijo' | 'sobremara';
   question: string;
   options: string[];
   correctIndex: number;

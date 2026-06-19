@@ -2,16 +2,16 @@ import { useEffect, useRef, useState } from 'react';
 import { fetchTopFlappyScores, submitFlappyScore, type FlappyScore } from '../lib/api';
 import ajoloteRosaSrc from '../assets/ajoloterosa.png';
 
-const WIDTH = 260;
-const HEIGHT = 420;
-const BIRD_X = 50;
-const BIRD_SIZE = 30;
-const GRAVITY = 0.32;
-const FLAP_VELOCITY = -6.2;
-const PIPE_WIDTH = 42;
-const PIPE_GAP = 130;
-const PIPE_SPEED = 1.7;
-const PIPE_SPACING = 180;
+const WIDTH = 390;
+const HEIGHT = 630;
+const BIRD_X = 75;
+const BIRD_SIZE = 45;
+const GRAVITY = 0.48;
+const FLAP_VELOCITY = -9.3;
+const PIPE_WIDTH = 63;
+const PIPE_GAP = 195;
+const PIPE_SPEED = 2.55;
+const PIPE_SPACING = 270;
 
 type Pipe = { x: number; gapY: number; passed: boolean };
 type Phase = 'idle' | 'playing' | 'over';
@@ -98,7 +98,7 @@ export function FlappyGame({ name }: { name: string }) {
         s.distanceSinceSpawn += PIPE_SPEED * dt;
         if (s.distanceSinceSpawn >= PIPE_SPACING) {
           s.distanceSinceSpawn = 0;
-          const margin = 50;
+          const margin = 75;
           const gapY = margin + Math.random() * (HEIGHT - margin * 2 - PIPE_GAP);
           s.pipes.push({ x: WIDTH, gapY, passed: false });
         }
@@ -170,9 +170,9 @@ export function FlappyGame({ name }: { name: string }) {
     ctx.restore();
 
     ctx.fillStyle = '#1f2937';
-    ctx.font = 'bold 22px sans-serif';
+    ctx.font = 'bold 32px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText(String(s.score), WIDTH / 2, 40);
+    ctx.fillText(String(s.score), WIDTH / 2, 60);
   }
 
   useEffect(() => {
@@ -187,7 +187,7 @@ export function FlappyGame({ name }: { name: string }) {
   }, []);
 
   return (
-    <div className="flex w-full max-w-xs flex-col items-center gap-4 rounded-3xl border-2 border-brand-pink/30 bg-white p-6 shadow-xl shadow-pink-200/40 dark:border-white/15 dark:bg-white/10 dark:shadow-purple-950/30">
+    <div className="flex w-full max-w-md flex-col items-center gap-4 rounded-3xl border-2 border-brand-pink/30 bg-white p-6 shadow-xl shadow-pink-200/40 dark:border-white/15 dark:bg-white/10 dark:shadow-purple-950/30">
       <h2 className="font-display text-xl font-bold">
         🐦 <span className="brand-gradient-text">FlappyAxolot</span>
       </h2>
@@ -198,7 +198,7 @@ export function FlappyGame({ name }: { name: string }) {
           width={WIDTH}
           height={HEIGHT}
           onClick={() => phase !== 'over' && flap()}
-          className="touch-none cursor-pointer rounded-xl border-2 border-black/10 dark:border-white/15"
+          className="block h-auto max-w-full touch-none cursor-pointer rounded-xl border-2 border-black/10 dark:border-white/15"
         />
         {phase === 'idle' && (
           <div className="pointer-events-none absolute inset-0 flex items-end justify-center rounded-xl bg-black/10 pb-8 text-center font-bold text-white">
