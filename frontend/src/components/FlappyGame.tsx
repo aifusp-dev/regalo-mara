@@ -12,6 +12,12 @@ const PIPE_WIDTH = 63;
 const PIPE_GAP = 195;
 const PIPE_SPEED = 2.55;
 const PIPE_SPACING = 270;
+const MAX_SPEED_FACTOR = 2;
+const SPEED_GROWTH_PER_POINT = 0.05;
+
+function speedForScore(score: number): number {
+  return PIPE_SPEED * Math.min(MAX_SPEED_FACTOR, 1 + score * SPEED_GROWTH_PER_POINT);
+}
 
 type Pipe = { x: number; gapY: number; passed: boolean };
 type Phase = 'idle' | 'playing' | 'over';
@@ -95,7 +101,9 @@ export function FlappyGame({ name }: { name: string }) {
         s.velocity += GRAVITY * dt;
         s.birdY += s.velocity * dt;
 
-        s.distanceSinceSpawn += PIPE_SPEED * dt;
+        const speed = speedForScore(s.score);
+
+        s.distanceSinceSpawn += speed * dt;
         if (s.distanceSinceSpawn >= PIPE_SPACING) {
           s.distanceSinceSpawn = 0;
           const margin = 75;
@@ -103,7 +111,7 @@ export function FlappyGame({ name }: { name: string }) {
           s.pipes.push({ x: WIDTH, gapY, passed: false });
         }
 
-        for (const p of s.pipes) p.x -= PIPE_SPEED * dt;
+        for (const p of s.pipes) p.x -= speed * dt;
         s.pipes = s.pipes.filter((p) => p.x + PIPE_WIDTH > 0);
 
         const birdTop = s.birdY - BIRD_SIZE / 2;
