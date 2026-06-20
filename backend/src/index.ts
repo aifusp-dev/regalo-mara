@@ -20,7 +20,9 @@ import { listEntries, addEntry, deleteEntry, getUploadsDir } from './capsule.js'
 import { addScore, topScores } from './scores.js';
 import questionsData from './data/questions.json' with { type: 'json' };
 
-const questions = questionsData as Question[];
+// "quiendijo" deshabilitadas: requieren conocer chistes internos del grupo,
+// confunden a jugadores que no son parte de él. Solo general + sobremara.
+const questions = (questionsData as Question[]).filter((q) => q.type !== 'quiendijo');
 const CAPSULE_ALLOWED_EMAILS = (process.env.CAPSULE_ALLOWED_EMAILS ?? '')
   .split(',')
   .map((email) => email.trim().toLowerCase())
